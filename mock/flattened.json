@@ -1,0 +1,5 @@
+{
+  "first_1.second_1.third_1": true,
+  "first_1.second_2.third_1": false,
+  "first_2": "with a piece of string"
+}

@@ -8,11 +8,10 @@ import fs from "node:fs";
  */
 (async () => {
   const argv = minimist(process.argv.slice(2), {
-    boolean: ["flatten", "nest", "overwrite", "force", "dry-run"],
+    boolean: ["flatten", "nest", "force", "dry-run"],
     alias: {
       f: "flatten",
       n: "nest",
-      O: "overwrite",
       N: "dry-run",
       F: "force",
     },
@@ -20,24 +19,27 @@ import fs from "node:fs";
   // console.warn({ argv });
 
   if (argv._.length === 0) {
-    console.error("no input file path provided, unabled to continue.");
-    process.exit(1);
+    throw Error("no input file path provided, unabled to continue.");
   }
 
   // validate our input file
   const maybeInFile = argv._.shift();
   if (!fs.existsSync(maybeInFile)) {
-    console.error(`cannot access input file "${maybeInFile}", unabled to continue.`);
-    process.exit(1);
+    throw Error(`cannot access input file "${maybeInFile}", unabled to continue.`);
+  }
+
+  // confirm that we have an intended action to perform
+  if (!argv.flatten && !argv.nest) {
+    throw Error("no action specified, please specify either --flatten or --nest to continue.");
   }
 
   // validate our output file
-  const maybeOutFile = argv.overwrite ? maybeInFile : argv._.shift();
-  if (argv.overwrite) {
-    console.warn("--overwrite specified, this will write changes directly to the input file...");
-  } else if (fs.existsSync(maybeOutFile) && !argv.force) {
-    console.error(`output file "${maybeOutFile}" already exists, "--force" must be specified to overwrite.`);
-    process.exit(1);
+  const maybeOutFile = argv._.shift() || maybeInFile;
+  if (maybeInFile !== maybeOutFile && fs.existsSync(maybeOutFile)) {
+    throw Error("target output file already exists, please specify --overwrite to overwrite.");
+  }
+  if (maybeInFile === maybeOutFile) {
+    console.warn("no output file specified, this will overwrite input file...");
   }
 
   // read and parse the input file
@@ -48,7 +50,7 @@ import fs from "node:fs";
   //  using this to "nest" an already nested file, or "flatten" an already flattened file, results in identical output.
 
   const inFileJsonString = JSON.stringify(inFileJson, null, 2);
-  console.log(inFileJsonString);
+  // console.log(inFileJsonString);
 
   let outFileJson;
 
@@ -111,10 +113,8 @@ import fs from "node:fs";
     process.exit(0);
   }
 
-  if (!fs.existsSync(maybeOutFile) || argv.overwrite || argv.force) {
-    console.log("file structure updated, writing to output file...");
-    fs.writeFileSync(maybeOutFile, JSON.stringify(outFileJson, null, 2));
-  }
+  console.log("file structure updated, writing to output file...");
+  fs.writeFileSync(maybeOutFile, outFileJsonString);
 })().catch((error) => {
   console.error(error.message || error);
   process.exit(1);

@@ -1,7 +1,7 @@
 {
-  "name": "dev-cli-tools",
+  "name": "json-toolbox",
   "version": "1.0.0",
-  "description": "my personal collection of generic CLI helper scripts.",
+  "description": "a random collection of JSON content manipulations scripts.",
   "license": "MIT",
   "author": "Andre Greeff <little.grief@gmail.com>",
   "main": "./bin/dummy.mjs",

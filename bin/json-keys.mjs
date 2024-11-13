@@ -2,6 +2,7 @@
 
 import minimist from "minimist";
 import fs from "node:fs";
+import { confirm } from "@inquirer/prompts";
 
 /**
  * this script aims to provide a generic mechanism for modifying JSON file contents.
@@ -40,6 +41,15 @@ import fs from "node:fs";
   }
   if (maybeInFile === maybeOutFile) {
     console.warn("no output file specified, this will overwrite input file...");
+  }
+
+  const applyChanges = argv.force || await confirm({
+    message: `would you like to apply these changes?`,
+    name: "applyChanges",
+  });
+  if (!applyChanges) {
+    console.log("process aborted, nothing more to do here...");
+    process.exit(0);
   }
 
   // read and parse the input file

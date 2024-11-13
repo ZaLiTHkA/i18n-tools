@@ -5,7 +5,7 @@ import fs from "node:fs";
 import { confirm } from "@inquirer/prompts";
 
 /**
- * this script aims to provide a generic mechanism for modifying JSON file contents.
+ * this script contains actions specific to manipulating the keys in a JSON file.
  */
 (async () => {
   const argv = minimist(process.argv.slice(2), {

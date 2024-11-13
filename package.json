@@ -6,7 +6,8 @@
   "author": "Andre Greeff <little.grief@gmail.com>",
   "main": "./bin/dummy.mjs",
   "bin": {
-    "json-keys": "./bin/json-keys.mjs"
+    "json-keys": "./bin/json-keys.mjs",
+    "json-strings": "./bin/json-strings.mjs"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

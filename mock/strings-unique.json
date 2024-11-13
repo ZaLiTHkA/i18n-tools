@@ -1,0 +1,5 @@
+{
+  "core.test.a": "my first string",
+  "core.test.b": "my second string",
+  "core.test.c": "my third string"
+}

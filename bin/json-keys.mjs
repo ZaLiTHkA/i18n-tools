@@ -20,13 +20,13 @@ import { confirm } from "@inquirer/prompts";
   // console.warn({ argv });
 
   if (argv._.length === 0) {
-    throw Error("no input file path provided, unabled to continue.");
+    throw Error("no input file path provided, unable to continue.");
   }
 
-  // validate our input file
+  // verify the input file exists
   const maybeInFile = argv._.shift();
   if (!fs.existsSync(maybeInFile)) {
-    throw Error(`cannot access input file "${maybeInFile}", unabled to continue.`);
+    throw Error(`cannot access input file "${maybeInFile}", unable to continue.`);
   }
 
   // confirm that we have an intended action to perform

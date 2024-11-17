@@ -2,15 +2,19 @@
 
 import minimist from "minimist";
 import fs from "node:fs";
+import { convertNestedKeys } from "../lib/functions.mjs";
 
 /**
  * this script contains actions specific to manipulating the string values in a JSON file.
  */
 (async () => {
   const argv = minimist(process.argv.slice(2), {
-    boolean: ["duplicates"],
+    boolean: ["find-duplicates", "count-words", "count-chars", "include-spaces"],
     alias: {
-      d: "duplicates",
+      d: "find-duplicates",
+      w: "count-words",
+      c: "count-chars",
+      s: "include-spaces",
     },
   });
   // console.warn({ argv });
@@ -32,7 +36,7 @@ import fs from "node:fs";
   // TODO: should we perhaps try to detect the current JSON structure here?
   //  for now, we'll assume it is a flattened JSON structure.
 
-  if (argv.duplicates) {
+  if (argv["find-duplicates"]) {
     // first process the JSON file entries, using "values" as keys and storing "keys" in an array value.
     const valuesAsKeys = {};
     for (const key in inFileJson) {
@@ -59,6 +63,32 @@ import fs from "node:fs";
         console.log(`  key: "${dupeKey}"`);
       }
     }
+  }
+
+  if (argv["count-words"]) {
+    console.log("counting words in file...");
+
+    const flattenedJson = convertNestedKeys(inFileJson);
+    const wordCount = Object.values(flattenedJson).reduce((acc, cur) => {
+      console.log("checking value:", cur);
+      const words = cur.split(" ");
+      return acc + words.length;
+    }, 0);
+
+    console.log(`total word count: ${wordCount}`);
+  }
+
+  if (argv["count-chars"]) {
+    console.log(`counting characters in file, ${argv["include-spaces"] ? "including" : "excluding"} spaces...`);
+
+    const flattenedJson = convertNestedKeys(inFileJson);
+    const charCount = Object.values(flattenedJson).reduce((acc, cur) => {
+      console.log("checking value:", cur);
+      const str = !argv["include-spaces"] ? cur.replaceAll(/\s/g, "") : cur;
+      return acc + str.length;
+    }, 0);
+
+    console.log(`total character count: ${charCount}`);
   }
 })().catch((error) => {
   console.error(error.message || error);

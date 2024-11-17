@@ -3,6 +3,7 @@
 import minimist from "minimist";
 import fs from "node:fs";
 import { confirm } from "@inquirer/prompts";
+import { convertNestedKeys, expandDotNotation } from "../lib/functions.mjs";
 
 /**
  * this script contains actions specific to manipulating the keys in a JSON file.
@@ -67,46 +68,12 @@ import { confirm } from "@inquirer/prompts";
   // if "--flatten" is specified, try to flatten the incoming JSON
   if (argv.flatten) {
     console.log("flattening JSON keys...");
-
-    function convertNestedKeys(obj) {
-      const result = {};
-      for (const key in obj) {
-        if (typeof obj[key] === "object") {
-          const nestedResult = convertNestedKeys(obj[key]);
-          for (const nestedKey in nestedResult) {
-            result[`${key}.${nestedKey}`] = nestedResult[nestedKey];
-          }
-        } else {
-          result[key] = obj[key];
-        }
-      }
-      return result;
-    }
-
     outFileJson = convertNestedKeys(inFileJson);
   }
 
   // if "--nest" is specified, try to nest the incoming JSON
   if (argv.nest) {
     console.log("nesting JSON keys...");
-
-    function expandDotNotation(obj) {
-      const result = {};
-      for (const key in obj) {
-        const parts = key.split(".");
-        let current = result;
-        for (let i = 0; i < parts.length - 1; i++) {
-          const part = parts[i];
-          if (!current[part]) {
-            current[part] = {};
-          }
-          current = current[part];
-        }
-        current[parts[parts.length - 1]] = obj[key];
-      }
-      return result;
-    }
-
     outFileJson = expandDotNotation(inFileJson);
   }
 

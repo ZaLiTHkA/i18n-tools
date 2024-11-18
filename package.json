@@ -1,7 +1,7 @@
 {
-  "name": "json-toolbox",
-  "version": "1.0.0",
-  "description": "a random collection of JSON content manipulations scripts.",
+  "name": "i18n-tools",
+  "version": "0.0.1",
+  "description": "a collection of helpers for manipulating the contents of JSON-based translation files.",
   "license": "MIT",
   "author": "Andre Greeff <little.grief@gmail.com>",
   "main": "./bin/dummy.mjs",

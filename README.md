@@ -1,3 +1,3 @@
-# JSON Toolbox
+# Internationalization Toolbox
 
-a random collection of JSON content manipulations scripts.
+a collection of helpers for manipulating the contents of JSON-based translation files.

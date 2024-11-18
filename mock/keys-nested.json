@@ -1,11 +1,11 @@
 {
-  "first_1": {
-    "second_1": {
-      "third_1": true
+  "FIRST_1": {
+    "SECOND_1": {
+      "THIRD_1": true
     },
-    "second_2": {
-      "third_1": false
+    "SECOND_2": {
+      "THIRD_1": false
     }
   },
-  "first_2": "with a piece of string"
+  "FIRST_2": "with a piece of string"
 }

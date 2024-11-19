@@ -3,7 +3,7 @@
 import minimist from "minimist";
 
 /**
- * dummy placeholder file, replace this with your own stuff...
+ * this script contains actions specific to USE_CASE_DESCRIPTION.
  */
 (async () => {
   const argv = minimist(process.argv.slice(2));

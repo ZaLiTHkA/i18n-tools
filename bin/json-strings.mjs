@@ -2,6 +2,7 @@
 
 import minimist from "minimist";
 import fs from "node:fs";
+
 import { convertNestedKeys } from "../lib/functions.mjs";
 
 /**
@@ -32,9 +33,6 @@ import { convertNestedKeys } from "../lib/functions.mjs";
   // read and parse the input file
   const inFileData = fs.readFileSync(maybeInFile, "utf8");
   const inFileJson = JSON.parse(inFileData);
-
-  // TODO: should we perhaps try to detect the current JSON structure here?
-  //  for now, we'll assume it is a flattened JSON structure.
 
   if (argv["find-duplicates"]) {
     // first process the JSON file entries, using "values" as keys and storing "keys" in an array value.
@@ -70,8 +68,9 @@ import { convertNestedKeys } from "../lib/functions.mjs";
 
     const flattenedJson = convertNestedKeys(inFileJson);
     const wordCount = Object.values(flattenedJson).reduce((acc, cur) => {
-      console.log("checking value:", cur);
-      const words = cur.split(" ");
+      console.log(`string: "${cur}"`);
+      const withoutHolders = cur.replaceAll(/{{.*}}/g, "").replaceAll(/\s\s/g, " ");
+      const words = withoutHolders.split(" ").filter((str) => str.length > 0);
       return acc + words.length;
     }, 0);
 
@@ -83,8 +82,9 @@ import { convertNestedKeys } from "../lib/functions.mjs";
 
     const flattenedJson = convertNestedKeys(inFileJson);
     const charCount = Object.values(flattenedJson).reduce((acc, cur) => {
-      console.log("checking value:", cur);
-      const str = !argv["include-spaces"] ? cur.replaceAll(/\s/g, "") : cur;
+      console.log(`string: "${cur}"`);
+      const withoutHolders = cur.replaceAll(/{{.*}}/g, "").replaceAll(/\s\s/g, " ");
+      const str = !argv["include-spaces"] ? withoutHolders.replaceAll(/\s/g, "") : withoutHolders;
       return acc + str.length;
     }, 0);
 

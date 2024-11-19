@@ -1,8 +1,9 @@
 #! /usr/bin/env node
 
+import { confirm } from "@inquirer/prompts";
 import minimist from "minimist";
 import fs from "node:fs";
-import { confirm } from "@inquirer/prompts";
+
 import { convertNestedKeys, expandDotNotation } from "../lib/functions.mjs";
 
 /**
@@ -30,11 +31,6 @@ import { convertNestedKeys, expandDotNotation } from "../lib/functions.mjs";
     throw Error(`cannot access input file "${maybeInFile}", unable to continue.`);
   }
 
-  // confirm that we have an intended action to perform
-  if (!argv.flatten && !argv.nest) {
-    throw Error("no action specified, please specify either --flatten or --nest to continue.");
-  }
-
   // validate our output file
   const maybeOutFile = argv._.shift() || maybeInFile;
   if (maybeInFile !== maybeOutFile && fs.existsSync(maybeOutFile)) {
@@ -42,6 +38,11 @@ import { convertNestedKeys, expandDotNotation } from "../lib/functions.mjs";
   }
   if (maybeInFile === maybeOutFile) {
     console.warn("no output file specified, this will overwrite input file...");
+  }
+
+  // confirm that we have an intended action to perform
+  if (!argv.flatten && !argv.nest) {
+    throw Error("no action specified, please specify either --flatten or --nest to continue.");
   }
 
   const applyChanges = argv.force || await confirm({

@@ -6,9 +6,6 @@ import fs from "node:fs";
 import path from "node:path";
 import { getTextExtractor } from "office-text-extractor";
 
-/**
- * this script contains actions specific to converting translation files between JSON and other formats.
- */
 (async () => {
   const argv = minimist(process.argv.slice(2), {
     strings: ["base-lang", "target-lang"],

@@ -6,9 +6,6 @@ import fs from "node:fs";
 
 import { convertNestedKeys, expandDotNotation } from "../lib/functions.mjs";
 
-/**
- * this script contains actions specific to manipulating the keys in a JSON file.
- */
 (async () => {
   const argv = minimist(process.argv.slice(2), {
     boolean: ["flatten", "nest", "force", "dry-run"],

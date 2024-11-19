@@ -5,9 +5,6 @@ import fs from "node:fs";
 
 import { convertNestedKeys } from "../lib/functions.mjs";
 
-/**
- * this script contains actions specific to manipulating the string values in a JSON file.
- */
 (async () => {
   const argv = minimist(process.argv.slice(2), {
     boolean: ["find-duplicates", "count-words", "count-chars", "include-spaces"],

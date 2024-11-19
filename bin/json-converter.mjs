@@ -185,36 +185,20 @@ import { getTextExtractor } from "office-text-extractor";
     });
 
     // parse the raw Word document text into a structure that can be used to update the target language JSON file.
-    const docParagraphs = rawText.split("\n");
-    const translationsCollector = {};
-    let lastKey = null;
-    for (let i = 0; i < docParagraphs.length; i++) {
-      if (i < 2) {
-        // too soon, nothing to do yet...
-        continue;
+    const regexMatches = rawText.matchAll(/key\n\n(?<key>^.*?$)\n\n(\w{2})\n\n(?<base>^.*?$)\n\n(\w{2})\n\n(?<target>^.*?$)\n\n\n\n/gm);
+    const parsedMatches = Array.from(regexMatches).reduce((acc, match) => {
+      if (match.groups.target !== "") {
+        console.log(`found translation for "${match.groups.key}"`);
+        acc[match.groups.key] = match.groups.target;
+      } else {
+        console.error(`missing translation for "${match.groups.key}"`);
       }
-      const type = docParagraphs[i - 2];
-      const value = docParagraphs[i];
-
-      if (type === "key") {
-        lastKey = value;
-        continue;
-      }
-
-      if (type === targetLang) {
-        if (value === "") {
-          console.error(`missing translation for "${lastKey}"`);
-          continue;
-        }
-
-        console.log(`found translation for "${lastKey}"`);
-        translationsCollector[lastKey] = value;
-      }
-    }
-    // console.log("updated translations:", translationsCollector);
+      return acc;
+    }, {});
+    console.log("parsedMatches:", parsedMatches);
 
     console.log(`writing new translations to output file: ${targetLangFilepath}`);
-    const outFileJsonString = JSON.stringify(translationsCollector, null, 2);
+    const outFileJsonString = JSON.stringify(parsedMatches, null, 2);
     fs.writeFileSync(targetLangFilepath, outFileJsonString);
   }
 })().catch((error) => {

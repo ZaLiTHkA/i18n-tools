@@ -14,7 +14,9 @@
   },
   "dependencies": {
     "@inquirer/prompts": "^5.3.8",
-    "minimist": "^1.2.8"
+    "docx": "^9.0.3",
+    "minimist": "^1.2.8",
+    "office-text-extractor": "^3.0.3"
   },
   "devDependencies": {
     "prettier": "^3.3.3"

@@ -4,7 +4,6 @@
   "description": "a collection of helpers for manipulating the contents of JSON-based translation files.",
   "license": "MIT",
   "author": "Andre Greeff <little.grief@gmail.com>",
-  "main": "./bin/dummy.mjs",
   "bin": {
     "json-keys": "./bin/json-keys.mjs",
     "json-strings": "./bin/json-strings.mjs"

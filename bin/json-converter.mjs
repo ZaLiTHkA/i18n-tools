@@ -8,7 +8,7 @@ import { getTextExtractor } from "office-text-extractor";
 
 (async () => {
   const argv = minimist(process.argv.slice(2), {
-    strings: ["base-lang", "target-lang"],
+    strings: ["base-lang", "target-lang", "project"],
     boolean: ["import", "export", "force", "missing"],
     default: {
       "base-lang": "en",
@@ -16,6 +16,7 @@ import { getTextExtractor } from "office-text-extractor";
     alias: {
       b: "base-lang",
       t: "target-lang",
+      p: "project",
       i: "import",
       e: "export",
       m: "missing",
@@ -39,6 +40,7 @@ import { getTextExtractor } from "office-text-extractor";
 
   const baseLang = argv["base-lang"];
   const targetLang = argv["target-lang"];
+  const projectName = argv["project"] || "project";
 
   // ensure that we have both a base and target language id to work with
   if (!targetLang) {
@@ -48,7 +50,7 @@ import { getTextExtractor } from "office-text-extractor";
   // prepare file names for the export and import actions
   const baseLangFilename = `${baseLang}.json`;
   const targetLangFilename = `${targetLang}.json`;
-  const wordDocFilename = `${baseLang}-${targetLang}.docx`;
+  const wordDocFilename = `${projectName}-${baseLang}-${targetLang}.docx`;
 
   // extrapolate the output folder path
   const destFolder = argv._.shift() || srcFolder;

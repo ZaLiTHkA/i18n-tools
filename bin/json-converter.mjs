@@ -108,25 +108,16 @@ import { getTextExtractor } from "office-text-extractor";
                   size: 30,
                   type: WidthType.DXA,
                 },
-                children: [new Paragraph(`key`)],
+                children: [new Paragraph({
+                  text: `key`,
+                  keepNext: true,
+                })],
               }),
               new TableCell({
-                children: [new Paragraph(e.key)],
-              }),
-            ],
-          }),
-          new TableRow({
-            cantSplit: true,
-            children: [
-              new TableCell({
-                width: {
-                  size: 30,
-                  type: WidthType.DXA,
-                },
-                children: [new Paragraph(baseLang)],
-              }),
-              new TableCell({
-                children: [new Paragraph(e[baseLang])],
+                children: [new Paragraph({
+                  text: e.key,
+                  keepNext: true,
+                })],
               }),
             ],
           }),
@@ -138,17 +129,47 @@ import { getTextExtractor } from "office-text-extractor";
                   size: 30,
                   type: WidthType.DXA,
                 },
-                children: [new Paragraph(targetLang)],
+                children: [new Paragraph({
+                  text: baseLang,
+                  keepNext: true,
+                })],
               }),
               new TableCell({
-                children: [new Paragraph(e[targetLang] || "")],
+                children: [new Paragraph({
+                  text: e[baseLang],
+                  keepNext: true,
+                })],
+              }),
+            ],
+          }),
+          new TableRow({
+            cantSplit: true,
+            children: [
+              new TableCell({
+                width: {
+                  size: 30,
+                  type: WidthType.DXA,
+                },
+                children: [new Paragraph({
+                  text: targetLang,
+                  keepNext: true,
+                })],
+              }),
+              new TableCell({
+                children: [new Paragraph({
+                  text: e[targetLang] || "",
+                  keepNext: true,
+                })],
               }),
             ],
           }),
         ],
       });
       langEntries.push(table);
-      langEntries.push(new Paragraph(""));
+      langEntries.push(new Paragraph({
+        text: "",
+        keepNext: true,
+      }));
     });
 
     // construct the Word document

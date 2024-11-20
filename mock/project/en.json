@@ -2,5 +2,16 @@
   "CORE.TEST.A": "my first string",
   "CORE.TEST.B": "my second string",
   "CORE.TEST.C": "my third string",
-  "CORE.TEST.D": "my fourth string"
+  "CORE.TEST.D": "my fourth string",
+  "CORE.TEST.E": "my fifth string",
+  "CORE.TEST.F": "my sixth string",
+  "CORE.TEST.G": "my seventh string",
+  "CORE.TEST.H": "my eighth string",
+  "CORE.TEST.I": "my ninth string",
+  "CORE.TEST.J": "my tenth string",
+  "CORE.TEST.K": "my eleventh string",
+  "CORE.TEST.L": "my twelfth string",
+  "CORE.TEST.M": "my thirteenth string",
+  "CORE.TEST.N": "my fourteenth string",
+  "CORE.TEST.O": "my fifteenth string"
 }
